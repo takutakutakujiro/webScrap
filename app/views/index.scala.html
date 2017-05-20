@@ -1,10 +1,18 @@
-@(elaListMap: List[Map[String, String]], viewListMap: List[Map[String, String]], pageNo: Int)
+@(elaListMap: List[Map[String, String]], viewListMap: List[Map[String, String]], pageNo: Int, status: String)
 @url = @{"https://house-site-scraping.herokuapp.com/page/"}
 
 @main("HouseHolder"){
 	@navi
-	@list
-	@page
+	<div style="margin-top: 100px">
+	@if(status == "first"){
+		@first
+	}
+	@if(status == null){
+		@list
+		@page
+	}
+	@erorr
+	</div>
 }
 @navi = {
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -50,10 +58,18 @@
     </nav>
 }
 
-@list = {
-	<div class="property_unit-content" style="margin-top: 100px">
+@first = {
+	<form method="POST">
+		<input type="checkbox" name="sumo" value=1>sumo</input>
+		<button type="submit" class="btn btn-success">スクレイピングスタート！</button>
+	</form>
+	
+}
 
-	@for( map <- viewListMap){
+@list = {
+	<div class="property_unit-content">
+
+	@for( map <- viewListMap ){
 		<div class="container">
 			<a href="@map("detail_url")" target="_blank">
 				<div class="col-xs-12"><h4>@map("title")</h4></div>
@@ -126,4 +142,19 @@
 	    </li>
 	  </ul>
 	</nav>
+}
+
+@erorr = {
+	<div style="text-align: center">
+		@if(status == "SocketTimeoutException"){
+			<h2>サイトのスクレイピング中にエラーが発生しました。</h2>
+			<h2>画面の更新をお願いします。</h2>
+		} else {
+			@if(status != null && status != "first") {
+				<h2>予期せぬエラーが発生しました。</h2>
+				<h2>画面の更新をお願いします。</h2>
+			}
+		}	
+	</div>
+	
 }

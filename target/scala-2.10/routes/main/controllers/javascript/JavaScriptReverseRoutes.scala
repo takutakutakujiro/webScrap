@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Fri May 19 03:01:24 JST 2017
+// @DATE:Sun May 21 01:52:40 JST 2017
 
 import play.api.routing.JavaScriptReverseRoute
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
@@ -14,7 +14,7 @@ import _root_.controllers.Assets.Asset
 package controllers.javascript {
   import ReverseRouteContext.empty
 
-  // @LINE:3
+  // @LINE:4
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -22,7 +22,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:3
+    // @LINE:4
     def versioned: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.versioned",
       """
@@ -42,6 +42,16 @@ package controllers.javascript {
     }
 
   
+    // @LINE:2
+    def post: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.post",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + """"})
+        }
+      """
+    )
+  
     // @LINE:1
     def index: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.index",
@@ -52,7 +62,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:2
+    // @LINE:3
     def nextContent: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.nextContent",
       """

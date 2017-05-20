@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Fri May 19 03:01:24 JST 2017
+// @DATE:Sun May 21 01:52:40 JST 2017
 
 package router
 
@@ -38,6 +38,7 @@ class Routes extends GeneratedRouter {
 
   def documentation: Seq[(String, String, String)] = List(
     ("""GET""", prefix, """controllers.Application.index"""),
+    ("""POST""", prefix, """controllers.Application.post"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """page/$no<[^/]+>""", """controllers.Application.nextContent(no:Int)"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """asset/$file<.+>""", """controllers.Assets.versioned(path:String = "/public", file:Asset)"""),
     Nil
@@ -65,10 +66,27 @@ class Routes extends GeneratedRouter {
   )
 
   // @LINE:2
-  private[this] lazy val controllers_Application_nextContent1_route: Route.ParamsExtractor = Route("GET",
+  private[this] lazy val controllers_Application_post1_route: Route.ParamsExtractor = Route("POST",
+    PathPattern(List(StaticPart(this.prefix)))
+  )
+  private[this] lazy val controllers_Application_post1_invoker = createInvoker(
+    controllers.Application.post,
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "post",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """"""
+    )
+  )
+
+  // @LINE:3
+  private[this] lazy val controllers_Application_nextContent2_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("page/"), DynamicPart("no", """[^/]+""",true)))
   )
-  private[this] lazy val controllers_Application_nextContent1_invoker = createInvoker(
+  private[this] lazy val controllers_Application_nextContent2_invoker = createInvoker(
     controllers.Application.nextContent(fakeValue[Int]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -81,11 +99,11 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:3
-  private[this] lazy val controllers_Assets_versioned2_route: Route.ParamsExtractor = Route("GET",
+  // @LINE:4
+  private[this] lazy val controllers_Assets_versioned3_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("asset/"), DynamicPart("file", """.+""",false)))
   )
-  private[this] lazy val controllers_Assets_versioned2_invoker = createInvoker(
+  private[this] lazy val controllers_Assets_versioned3_invoker = createInvoker(
     controllers.Assets.versioned(fakeValue[String], fakeValue[Asset]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -108,15 +126,21 @@ class Routes extends GeneratedRouter {
       }
   
     // @LINE:2
-    case controllers_Application_nextContent1_route(params) =>
-      call(params.fromPath[Int]("no", None)) { (no) =>
-        controllers_Application_nextContent1_invoker.call(controllers.Application.nextContent(no))
+    case controllers_Application_post1_route(params) =>
+      call { 
+        controllers_Application_post1_invoker.call(controllers.Application.post)
       }
   
     // @LINE:3
-    case controllers_Assets_versioned2_route(params) =>
+    case controllers_Application_nextContent2_route(params) =>
+      call(params.fromPath[Int]("no", None)) { (no) =>
+        controllers_Application_nextContent2_invoker.call(controllers.Application.nextContent(no))
+      }
+  
+    // @LINE:4
+    case controllers_Assets_versioned3_route(params) =>
       call(Param[String]("path", Right("/public")), params.fromPath[Asset]("file", None)) { (path, file) =>
-        controllers_Assets_versioned2_invoker.call(controllers.Assets.versioned(path, file))
+        controllers_Assets_versioned3_invoker.call(controllers.Assets.versioned(path, file))
       }
   }
 }

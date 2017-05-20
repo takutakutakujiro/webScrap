@@ -1,10 +1,15 @@
 package controllers
 
-import play.api.mvc._
-import java.net.InetAddress
+import java.net.{InetAddress, SocketTimeoutException}
 import collection.mutable.ListBuffer
 import collection.immutable.ListMap
 import utils.Utils._
+
+import play.api.mvc._
+import play.api._
+import play.api.mvc._
+import play.api.data._
+import play.api.data.Forms._
 
 
 object Application extends Controller {
@@ -13,13 +18,23 @@ object Application extends Controller {
 	var viewList = List[Map[String, String]]()
 
 	 def index = Action {
-	 	
-	 	if (allList.isEmpty) 
-	 		allList = scrap.scrapStart
+		Ok(views.html.index.render(allList, viewList, 1, "first"))		
+	}
 
-	    viewList = allList.slice(0,30)
-	 	
-	 	Ok(views.html.index.render(allList, viewList, 1))
+	def scrapBtn = {
+	
+	 	try{
+	 		if (allList.isEmpty) 
+	 			allList = scrap.scrapStart
+
+	 		viewList = allList.slice(0,30)
+
+	 	} catch {
+	 		case ex: SocketTimeoutException =>
+	 			println("SocketTimeoutExceptionエラーです。")
+	 			var viewList = List[Map[String, String]]()
+	 			Ok(views.html.index.render(allList, viewList, 1, "SocketTimeoutException"))
+		}
 
 	}
 
@@ -28,6 +43,22 @@ object Application extends Controller {
 		if(pageNo == 1) sliceNo = 0
 		else sliceNo = (pageNo - 1) * 30
 		viewList = allList.slice(sliceNo, sliceNo + 30)
-	 	Ok(views.html.index.render(allList, viewList, pageNo))
+	 	Ok(views.html.index.render(allList, viewList, pageNo, null))
 	}
+
+	case class SiteData(sumo: String)
+
+	val siteForm = Form(
+	    mapping(
+	    	"sumo" -> text
+	    )(SiteData.apply)(SiteData.unapply)
+	)
+
+	def post = Action { implicit request =>
+          	val selectSite = siteForm.bindFromRequest.get
+        	if (selectSite.sumo == "1") scrapBtn
+
+        	Ok(views.html.index.render(allList, viewList, 1, null))
+	}
+
 }	 
