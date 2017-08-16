@@ -77,3 +77,34 @@ label{
 	border-top: thin dotted;
     padding: 15px 0 10px;
 }
+
+@media screen and (max-width: 390px){
+
+.content {width: auto;}
+
+.container{
+  width: auto;
+  margin: 10px;
+}
+
+.mobile-img{text-align: center;}
+
+.item{
+  margin:auto;
+  border-top: thin dotted;
+}
+
+.item-left{
+  text-align: center;
+}
+
+.item-top{
+  margin-top: 6px;
+  border: none;
+}
+
+.item-bottom{
+  margin-bottom: 3px;
+}
+
+}
