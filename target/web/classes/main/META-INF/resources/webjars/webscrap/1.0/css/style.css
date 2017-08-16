@@ -39,38 +39,23 @@ label{
 	padding: 10px 0;
 }
 
+.block{
+  padding: 0.5em 1em;
+  margin: 20px;
+  color: #5d627b;
+  background: white;
+  border-top: solid 5px #5d627b;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+}
+
 .checkboxs{
-    padding: 0.5em 1em;
-    margin: 20px;
-    color: #5d627b;
-    background: white;
-    border-top: solid 5px #5d627b;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+  margin-bottom: 10px;
 }
 
 .checkboxs-title{
 	font-size: 17px;
     font-weight: bold;
     background-color: #d7d8d8;
-}
-
-.checkbox {
-  display: none;
-}
-.checkbox + .checkbox-icon {
-  position: relative;
-  vertical-align: middle;
-}
-.checkbox + .checkbox-icon:before {
-  content: "\f372";
-  font-family: "Ionicons";
-  color: #ccc;
-  font-size: 22px;
-  margin-left: 10px;
-}
-.checkbox:checked + .checkbox-icon:before {
-  content: "\f374";
-  color: #17bcdf;
 }
 
 .scripbtn{
