@@ -17,25 +17,15 @@ object Application extends Controller {
 	var allList = List[Map[String, String]]()
 	var viewList = List[Map[String, String]]()
 
-	 def index = Action {
-		Ok(views.html.index.render(allList, viewList, 1, "first"))		
+	def index = Action {
+		Ok(views.html.index(allList, viewList, 1, "first"))		
 	}
 
 	def scrapBtn = {
-	
-	 	try{
-	 		if (allList.isEmpty) 
-	 			allList = scrap.scrapStart
+ 		if (allList.isEmpty) 
+ 			allList = scrap_sumo.scrapStart
 
-	 		viewList = allList.slice(0,30)
-
-	 	} catch {
-	 		case ex: SocketTimeoutException =>
-	 			println("SocketTimeoutExceptionエラーです。")
-	 			var viewList = List[Map[String, String]]()
-	 			Ok(views.html.index.render(allList, viewList, 1, "SocketTimeoutException"))
-		}
-
+ 		viewList = allList.slice(0,30)
 	}
 
 	def nextContent(pageNo: Int) = Action {
@@ -55,10 +45,20 @@ object Application extends Controller {
 	)
 
 	def post = Action { implicit request =>
-          	val selectSite = siteForm.bindFromRequest.get
-        	if (selectSite.sumo == "1") scrapBtn
-
-        	Ok(views.html.index.render(allList, viewList, 1, null))
+    	try {
+    		val selectSite = siteForm.bindFromRequest.get
+    		if (selectSite.sumo == "1") scrapBtn
+    		Ok(views.html.index.render(allList, viewList, 1, null))
+		 } catch {
+	 		case ex: SocketTimeoutException =>
+	 			println("SocketTimeoutExceptionエラーです。")
+	 			var viewList = List[Map[String, String]]()
+	 			Ok(views.html.index.render(allList, viewList, 1, "SocketTimeoutException"))
+	 		case e: Exception =>
+		 		println("予期せぬエラーです。")
+	 			var viewList = List[Map[String, String]]()
+	 			Ok(views.html.index.render(allList, viewList, 1, e.toString))
+		}
 	}
 
 }	 

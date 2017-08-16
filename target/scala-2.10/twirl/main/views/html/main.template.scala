@@ -26,22 +26,23 @@ Seq[Any](format.raw/*1.32*/("""
 """),format.raw/*2.1*/("""<!DOCTYPE html>
 <html>
  <head>
-  	<title>title</title>
     <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- BootstrapのCSS読み込み -->
-	<link href=""""),_display_(/*10.15*/routes/*10.21*/.Assets.versioned("css/bootstrap.min.css")),format.raw/*10.63*/("""" rel="stylesheet">
+	<link href=""""),_display_(/*9.15*/routes/*9.21*/.Assets.versioned("css/bootstrap.min.css")),format.raw/*9.63*/("""" rel="stylesheet">
 	<!-- jQuery読み込み -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- BootstrapのJS読み込み -->
-	<script src=""""),_display_(/*14.16*/routes/*14.22*/.Assets.versioned("js/bootstrap.min.js")),format.raw/*14.62*/(""""></script>
+	<script src=""""),_display_(/*13.16*/routes/*13.22*/.Assets.versioned("js/bootstrap.min.js")),format.raw/*13.62*/(""""></script>
 	<!-- CSS読み込み -->
-	<link href=""""),_display_(/*16.15*/routes/*16.21*/.Assets.versioned("css/style.css")),format.raw/*16.55*/("""" rel="stylesheet">
+	<link href=""""),_display_(/*15.15*/routes/*15.21*/.Assets.versioned("css/style.css")),format.raw/*15.55*/("""" rel="stylesheet">
+
+	<title>"""),_display_(/*17.10*/title),format.raw/*17.15*/("""</title>
  </head>
  	<body>
-  		"""),_display_(/*19.6*/content),format.raw/*19.13*/("""
- 	"""),format.raw/*20.3*/("""</body>
+ 		"""),_display_(/*20.5*/content),format.raw/*20.12*/("""
+ 	"""),format.raw/*21.3*/("""</body>
 </html>
 """))
       }
@@ -63,11 +64,11 @@ Seq[Any](format.raw/*1.32*/("""
 object main extends main_Scope0.main
               /*
                   -- GENERATED --
-                  DATE: Sun May 14 22:11:19 JST 2017
-                  SOURCE: /Users/nishida-takuro/git/HouseHolder/AppHouse/app/views/main.scala.html
-                  HASH: 9a82e40e5d6eb8b76bef258bdf206f7457089d7f
-                  MATRIX: 530->1|655->31|682->32|958->281|973->287|1036->329|1237->503|1252->509|1313->549|1384->593|1399->599|1454->633|1523->676|1551->683|1581->686
-                  LINES: 20->1|25->1|26->2|34->10|34->10|34->10|38->14|38->14|38->14|40->16|40->16|40->16|43->19|43->19|44->20
+                  DATE: Wed Aug 16 23:23:14 JST 2017
+                  SOURCE: /Users/nishida-takuro/heroku/webScrap/app/views/main.scala.html
+                  HASH: b57a14498dc3af7648db08d2eee3fb577d7cc5f3
+                  MATRIX: 530->1|655->31|682->32|933->257|947->263|1009->305|1210->479|1225->485|1286->525|1357->569|1372->575|1427->609|1484->639|1510->644|1567->675|1595->682|1625->685
+                  LINES: 20->1|25->1|26->2|33->9|33->9|33->9|37->13|37->13|37->13|39->15|39->15|39->15|41->17|41->17|44->20|44->20|45->21
                   -- GENERATED --
               */
           

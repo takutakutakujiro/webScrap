@@ -1,19 +1,24 @@
 @(elaListMap: List[Map[String, String]], viewListMap: List[Map[String, String]], pageNo: Int, status: String)
 @url = @{"https://house-site-scraping.herokuapp.com/page/"}
 
-@main("HouseHolder"){
-	@navi
-	<div style="margin-top: 100px">
-	@if(status == "first"){
-		@first
-	}
-	@if(status == null){
-		@list
-		@page
-	}
-	@erorr
+@main("世田谷House"){
+	@header
+	<div class="content">
+		@form
+		@if(status == null){
+			@list
+			@page
+		}
+		@erorr
 	</div>
 }
+
+@header = {
+	<div class="header">
+		<h2>世田谷House</h2>
+	</div>
+}
+
 @navi = {
     <nav class="navbar navbar-inverse navbar-fixed-top">
     	 <div class="navbar-header">
@@ -58,12 +63,25 @@
     </nav>
 }
 
-@first = {
-	<form method="POST">
-		<input type="checkbox" name="sumo" value=1>sumo</input>
-		<button type="submit" class="btn btn-success">スクレイピングスタート！</button>
-	</form>
-	
+@form = {
+	<div class="form">
+		<form method="POST">
+			<div class="checkboxs">
+				<div class="checkboxs-title">サイト選択</div>
+				<label>
+					<input type="checkbox" class="checkbox" name="sumo" value=1 />
+					<span class="checkbox-icon"></span>
+					SUMO
+					<input type="checkbox" class="checkbox" name="sumo" value=1 />
+					<span class="checkbox-icon"></span>
+					homes
+				</label>
+				<div class="scripbtn">
+					<button type="submit" class="btn btn-success">スクレイピングスタート！</button>
+				</div>
+			</div>
+		</form>
+	</div>
 }
 
 @list = {
@@ -72,7 +90,8 @@
 	@for( map <- viewListMap ){
 		<div class="container">
 			<a href="@map("detail_url")" target="_blank">
-				<div class="col-xs-12"><h4>@map("title")</h4></div>
+				<div class="col-xs-1">@map("site")</div>
+				<div class="col-xs-11"><h4>@map("title")</h4></div>
 				<div class="col-xs-4"><img src="@map("img")" rel="" alt="" width="192" height="144"></div>
 			</a>
 			<div class="col-xs-2 item">販売価格</div>
@@ -81,7 +100,7 @@
 					@map("minPrice")
 				} else {
 					@map("minPrice") ~ @map("maxPrice")
-				}
+				}万円
 			</div>
 			<div class="col-xs-2 item">所在地</div>
 			<div class="col-xs-6 item">@map("address")</div>	

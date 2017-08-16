@@ -28,3 +28,6 @@ reload
 run
 exit
 run
+conpile
+compile
+run

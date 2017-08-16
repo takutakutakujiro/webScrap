@@ -22,6 +22,4 @@ object Utils {
 			case None => "None"
 		}
     }
-
-
 }

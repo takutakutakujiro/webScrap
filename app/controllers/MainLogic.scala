@@ -3,33 +3,33 @@ package controllers
 import org.jsoup._
 import org.jsoup.nodes.Element
 import collection.JavaConverters._
-//import java.io.{File, PrintWriter}
 import scala.util.matching.Regex.Match
 import scala.collection.mutable.Buffer
 import collection.immutable.ListMap
 import utils.Utils._
 import utils.JsoupUtil._
 import utils.JsonUtil._
+import utils.scrapUtil._
 
-object scrap {
 
-	val urlstr = "http://suumo.jp/ikkodate/tokyo/sc_setagaya/"
+object scrap_sumo {
+
 	val NONE = "None"
+	val urlstr = "http://suumo.jp/ikkodate/tokyo/sc_setagaya/"	
 
 	def scrapStart: List[Map[String, String]] = {
 		val urlList = createUrlList(getMaxPageNo(urlstr))
-		createMap(urlList)	
+		createMap(".property_unit-content", "sumo", urlList)	
 	}
-	
 
-	def getMaxPageNo(urlstr : String): Int = {
+	val getMaxPageNo = (urlstr : String) => {
 		val main_jsoup_con = Jsoup.connect(urlstr)
 	    val element = main_jsoup_con.get.select(".pagination").asScala.head
 		val dateP1 = "[0-9]* ".r		
 		val pageCntStr = dateP1.findAllIn(element.text).toList.last.trim.toInt
 		println(s"[SUMO][世田谷区][最大ページ数]：$pageCntStr")
 		pageCntStr
-	}
+	}	
 
 	def createUrlList(maxPageNo : Int): List[String] = {
 		import collection.mutable.ListBuffer
@@ -40,36 +40,9 @@ object scrap {
 			b += createdUrl
 		}
 		b.toList
-	}
+	}	
 
 	def createUrl (pageNo : String) = urlstr + "pnz1" + pageNo + ".html"
-
-	def createMap (list : List[String]): List[Map[String, String]] = {	
-		import collection.mutable.ListBuffer
-		val b = new ListBuffer[Map[String, String]]
-		list.par.map { url => 
-			val jsoup = start(url, ".property_unit-content") 
-
-			jsoup.par.map { m => 
-				//タイトル、詳細画面url、画像、販売価格、所在地、駅、土地面積、間取り
-				val iMap = Map[String, String](
-					"title"      -> getTitle(m),
-					"detail_url" -> getDetailUrl(m),
-					"img" 		 -> getImg(m),
-					"minPrice"   -> getMinPrice(m),
-					"maxPrice"   -> getMaxPrice(m),
-					"address"    -> getAddress(m),
-					"station" 	 -> getStation(m),
-					"minSpace" 	 -> getMinSpace(m),	
-					"maxSpace" 	 -> getMaxSpace(m),	
-					"roomLayout" -> getRoomLayout(m)
-				)
-				printMap(iMap)
-				b += iMap
-			}
-		}
-		b.toList		
-	}
 
     def getTitle      (e : Element): String = getItem(e.toString, """<h2 class="property_unit-title">.*<a.*>(.*)</a></h2>""")
     def getDetailUrl  (e : Element): String = getItem(e.toString, """<h2 class="property_unit-title">.*<a href="(.*)" target""")
@@ -130,20 +103,4 @@ object scrap {
  		else if (res2 != NONE) trimPriceCal(0, res2.toInt).toString
  		else str
     }
-
-    def printMap(map: Map[String,String]) ={
-    	println("\n==================")
-    	println("title" + map("title"))
-		println("detail_url" + map("detail_url"))
-		println("img" + map("img"))
-		println("minPrice" + map("minPrice"))
-		println("maxPrice" + map("maxPrice"))
-		println("address" + map("address"))
-		println("station" + map("station"))
-		println("minSpace" + map("minSpace"))
-		println("maxSpace" + map("maxSpace"))
-		println("roomLayout" + map("roomLayout"))
-    }
-
-    def trimPriceCal (oku: Int, man: Int) = oku * 10000 + man
 }
