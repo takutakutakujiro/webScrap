@@ -564,3 +564,4 @@ play.sbt.PlayExceptions$CompilationException: Compilation error[illegal start of
 	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library.jar:na]
 2017-08-24 15:47:03,353 [INFO] from play.api.Play in application-akka.actor.default-dispatcher-5 - Application started (Dev)
+2017-08-24 21:22:13,102 [INFO] from play.api.Play in application-akka.actor.default-dispatcher-10 - Application started (Dev)
