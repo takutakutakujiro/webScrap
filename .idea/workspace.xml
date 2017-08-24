@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21b347a4-8709-4294-9d5f-5d8ffa2d9cde" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/$global/dependencyPositions/$global/streams/update_cache_2.10/output_dsp" afterPath="$PROJECT_DIR$/target/streams/$global/dependencyPositions/$global/streams/update_cache_2.10/output_dsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index$.class" afterPath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index$.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index_Scope0$index_Scope1$index$$anonfun$f$1.class" afterPath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index_Scope0$index_Scope1$index$$anonfun$f$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index_Scope0$index_Scope1$index.class" afterPath="$PROJECT_DIR$/target/scala-2.10/classes/views/html/index_Scope0$index_Scope1$index.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.scala.html" afterPath="$PROJECT_DIR$/app/views/index.scala.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/application.log" afterPath="$PROJECT_DIR$/logs/application.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/export" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/export" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" afterPath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/scala-2.10/twirl/main/views/html/index.template.scala" afterPath="$PROJECT_DIR$/target/scala-2.10/twirl/main/views/html/index.template.scala" />
     </list>
     <ignored path="$PROJECT_DIR$/target/native_libraries/" />
     <ignored path="$PROJECT_DIR$/target/resolution-cache/" />
@@ -31,8 +32,8 @@
       <file leaf-file-name="index.scala.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="4" lean-forward="true" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+            <state relative-caret-position="114">
+              <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -448,8 +449,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="4" lean-forward="true" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+        <state relative-caret-position="114">
+          <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
           <folding />
         </state>
       </provider>
