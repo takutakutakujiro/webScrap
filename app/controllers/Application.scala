@@ -10,35 +10,37 @@ import play.api.data.Forms._
 
 object Application extends Controller {
 
-	val sessionBean = new SessionBean()
+	val cashSessionBean = new SessionBean()
+	val SEARCHED = "searched"
 
 	def index = Action {
 
-		sessionBean.status = "first"
-
-		Ok(views.html.index(sessionBean))
+		Ok(views.html.index(createParSessionBean))
 	}
 
 	def scrapBtn = {
- 		sessionBean.houseAllListMap match {
-			case map if map.isEmpty => sessionBean.houseAllListMap = scrap_sumo.scrapStart
+		cashSessionBean.checkedSiteModel.sumo match {
+			case false =>
+				cashSessionBean.houseAllListMap = scrap_sumo.scrapStart
+				cashSessionBean.checkedSiteModel.sumo = true
 			case _ =>
 		}
 
-		sessionBean.viewListMap = sessionBean.houseAllListMap.slice(0,30)
-		sessionBean.status = "searched"
+		cashSessionBean.viewListMap = cashSessionBean.houseAllListMap.slice(0,30)
+		cashSessionBean.status = SEARCHED
 	}
 
 	def fetchListSelectedPageNumber(selectedPageNo: Int) = Action {
-	 var sliceFromNo = 0
 
-		if(selectedPageNo == 1) sliceFromNo = 0
-		else sliceFromNo = (selectedPageNo - 1) * 30
+		val sliceFromNo = selectedPageNo match {
+			case 1 => 0
+			case _ => (selectedPageNo - 1) * 30
+		}
 
-		sessionBean.viewListMap = sessionBean.houseAllListMap.slice(sliceFromNo, sliceFromNo + 30)
-		sessionBean.currentPageNumber = selectedPageNo
+		cashSessionBean.viewListMap = cashSessionBean.houseAllListMap.slice(sliceFromNo, sliceFromNo + 30)
+		cashSessionBean.currentPageNumber = selectedPageNo
 
-	 	Ok(views.html.index(sessionBean))
+	 	Ok(views.html.index(cashSessionBean))
 	}
 
 	case class SiteData(sumo: String)
@@ -51,33 +53,53 @@ object Application extends Controller {
 
 	def post = Action { implicit request =>
     	try {
-    		val selectSite = siteForm.bindFromRequest.get
 
-				selectSite.sumo match {
-					case "1" =>
-						scrapBtn
-						sessionBean.checkedSiteModel.sumo = true
-					case _ =>
+				//formのエラーチェック
+				val selectSite = siteForm.bindFromRequest.hasErrors match {
+					case true => null
+					case _ =>  siteForm.bindFromRequest.get
 				}
 
-    		Ok(views.html.index(sessionBean))
+				selectSite match {
+					case null =>
+					case x if x.sumo == "1" => scrapBtn
+				}
+
+
+    		Ok(views.html.index(createParSessionBean))
 		 } catch {
 
 	 		case ex: SocketTimeoutException =>
 	 			println("SocketTimeoutExceptionエラーです。")
 
-				sessionBean.viewListMap = List[Map[String, String]]()
-				sessionBean.status = "SocketTimeoutException"
+				cashSessionBean.viewListMap = List[Map[String, String]]()
+				cashSessionBean.status = "SocketTimeoutException"
 
-	 			Ok(views.html.index(sessionBean))
+	 			Ok(views.html.index(cashSessionBean))
 
 	 		case e: Exception =>
-		 		println("予期せぬエラーです。")
+				println("予期せぬエラーです。")
 
-				sessionBean.viewListMap = List[Map[String, String]]()
-				sessionBean.status = e.toString
+				cashSessionBean.viewListMap = List[Map[String, String]]()
+				cashSessionBean.status = e.toString
 
-	 			Ok(views.html.index(sessionBean))
+	 			Ok(views.html.index(cashSessionBean))
+		}
+	}
+
+	def createParSessionBean: SessionBean = {
+
+		val sessionBean = new SessionBean()
+
+		cashSessionBean.checkedSiteModel.sumo match {
+
+			case true =>
+				sessionBean.checkedSiteModel.sumo = true
+				sessionBean.status = SEARCHED
+				sessionBean.viewListMap = cashSessionBean.viewListMap
+				sessionBean
+
+			case _ => sessionBean
 		}
 	}
 }	 

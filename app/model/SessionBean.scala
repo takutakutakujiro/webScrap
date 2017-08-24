@@ -6,7 +6,7 @@ class SessionBean {
 
   var viewListMap = List[Map[String, String]]()
 
-  var status: String = _
+  var status: String = "first"
 
   var currentPageNumber: Int = 1
 
