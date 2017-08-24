@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Sun May 21 01:52:40 JST 2017
+// @DATE:Tue Aug 22 03:34:51 JST 2017
 
 package controllers;
 

@@ -1,4 +1,4 @@
 GET /  controllers.Application.index
 POST /  controllers.Application.post
-GET /page/:no controllers.Application.nextContent(no: Int)
+GET /page/:no controllers.Application.fetchListSelectedPageNumber(no: Int)
 GET /asset/*file    controllers.Assets.versioned(path="/public", file: Asset)

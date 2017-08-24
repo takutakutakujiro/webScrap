@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Sun May 21 01:52:40 JST 2017
+// @DATE:Tue Aug 22 03:34:51 JST 2017
 
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
 import play.core.routing.{ HandlerDef, ReverseRouteContext, queryString, dynamicString }
@@ -40,16 +40,16 @@ package controllers {
       Call("POST", _prefix)
     }
   
+    // @LINE:3
+    def fetchListSelectedPageNumber(no:Int): Call = {
+      import ReverseRouteContext.empty
+      Call("GET", _prefix + { _defaultPrefix } + "page/" + implicitly[PathBindable[Int]].unbind("no", no))
+    }
+  
     // @LINE:1
     def index(): Call = {
       import ReverseRouteContext.empty
       Call("GET", _prefix)
-    }
-  
-    // @LINE:3
-    def nextContent(no:Int): Call = {
-      import ReverseRouteContext.empty
-      Call("GET", _prefix + { _defaultPrefix } + "page/" + implicitly[PathBindable[Int]].unbind("no", no))
     }
   
   }

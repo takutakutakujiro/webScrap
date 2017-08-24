@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Sun May 21 01:52:40 JST 2017
+// @DATE:Tue Aug 22 03:34:51 JST 2017
 
 import play.api.routing.JavaScriptReverseRoute
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
@@ -52,22 +52,22 @@ package controllers.javascript {
       """
     )
   
+    // @LINE:3
+    def fetchListSelectedPageNumber: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.fetchListSelectedPageNumber",
+      """
+        function(no) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "page/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("no", no)})
+        }
+      """
+    )
+  
     // @LINE:1
     def index: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.index",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + """"})
-        }
-      """
-    )
-  
-    // @LINE:3
-    def nextContent: JavaScriptReverseRoute = JavaScriptReverseRoute(
-      "controllers.Application.nextContent",
-      """
-        function(no) {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "page/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("no", no)})
         }
       """
     )

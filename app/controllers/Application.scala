@@ -1,12 +1,8 @@
 package controllers
 
-import java.net.{InetAddress, SocketTimeoutException}
-import collection.mutable.ListBuffer
-import collection.immutable.ListMap
-import utils.Utils._
+import java.net.SocketTimeoutException
 
-import play.api.mvc._
-import play.api._
+import model.SessionBean
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -14,26 +10,35 @@ import play.api.data.Forms._
 
 object Application extends Controller {
 
-	var allList = List[Map[String, String]]()
-	var viewList = List[Map[String, String]]()
+	val sessionBean = new SessionBean()
 
 	def index = Action {
-		Ok(views.html.index(allList, viewList, 1, "first"))		
+
+		sessionBean.status = "first"
+
+		Ok(views.html.index(sessionBean))
 	}
 
 	def scrapBtn = {
- 		if (allList.isEmpty) 
- 			allList = scrap_sumo.scrapStart
+ 		sessionBean.houseAllListMap match {
+			case map if map.isEmpty => sessionBean.houseAllListMap = scrap_sumo.scrapStart
+			case _ =>
+		}
 
- 		viewList = allList.slice(0,30)
+		sessionBean.viewListMap = sessionBean.houseAllListMap.slice(0,30)
+		sessionBean.status = "searched"
 	}
 
-	def nextContent(pageNo: Int) = Action {
-		var sliceNo = 0
-		if(pageNo == 1) sliceNo = 0
-		else sliceNo = (pageNo - 1) * 30
-		viewList = allList.slice(sliceNo, sliceNo + 30)
-	 	Ok(views.html.index.render(allList, viewList, pageNo, null))
+	def fetchListSelectedPageNumber(selectedPageNo: Int) = Action {
+	 var sliceFromNo = 0
+
+		if(selectedPageNo == 1) sliceFromNo = 0
+		else sliceFromNo = (selectedPageNo - 1) * 30
+
+		sessionBean.viewListMap = sessionBean.houseAllListMap.slice(sliceFromNo, sliceFromNo + 30)
+		sessionBean.currentPageNumber = selectedPageNo
+
+	 	Ok(views.html.index(sessionBean))
 	}
 
 	case class SiteData(sumo: String)
@@ -47,18 +52,32 @@ object Application extends Controller {
 	def post = Action { implicit request =>
     	try {
     		val selectSite = siteForm.bindFromRequest.get
-    		if (selectSite.sumo == "1") scrapBtn
-    		Ok(views.html.index.render(allList, viewList, 1, null))
+
+				selectSite.sumo match {
+					case "1" =>
+						scrapBtn
+						sessionBean.checkedSiteModel.sumo = true
+					case _ =>
+				}
+
+    		Ok(views.html.index(sessionBean))
 		 } catch {
+
 	 		case ex: SocketTimeoutException =>
 	 			println("SocketTimeoutExceptionエラーです。")
-	 			var viewList = List[Map[String, String]]()
-	 			Ok(views.html.index.render(allList, viewList, 1, "SocketTimeoutException"))
+
+				sessionBean.viewListMap = List[Map[String, String]]()
+				sessionBean.status = "SocketTimeoutException"
+
+	 			Ok(views.html.index(sessionBean))
+
 	 		case e: Exception =>
 		 		println("予期せぬエラーです。")
-	 			var viewList = List[Map[String, String]]()
-	 			Ok(views.html.index.render(allList, viewList, 1, e.toString))
+
+				sessionBean.viewListMap = List[Map[String, String]]()
+				sessionBean.status = e.toString
+
+	 			Ok(views.html.index(sessionBean))
 		}
 	}
-
 }	 

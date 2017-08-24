@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/Users/nishida-takuro/heroku/webScrap/conf/routes
-// @DATE:Sun May 21 01:52:40 JST 2017
+// @DATE:Tue Aug 22 03:34:51 JST 2017
 
 package router
 
@@ -39,7 +39,7 @@ class Routes extends GeneratedRouter {
   def documentation: Seq[(String, String, String)] = List(
     ("""GET""", prefix, """controllers.Application.index"""),
     ("""POST""", prefix, """controllers.Application.post"""),
-    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """page/$no<[^/]+>""", """controllers.Application.nextContent(no:Int)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """page/$no<[^/]+>""", """controllers.Application.fetchListSelectedPageNumber(no:Int)"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """asset/$file<.+>""", """controllers.Assets.versioned(path:String = "/public", file:Asset)"""),
     Nil
   ).foldLeft(List.empty[(String,String,String)]) { (s,e) => e.asInstanceOf[Any] match {
@@ -83,15 +83,15 @@ class Routes extends GeneratedRouter {
   )
 
   // @LINE:3
-  private[this] lazy val controllers_Application_nextContent2_route: Route.ParamsExtractor = Route("GET",
+  private[this] lazy val controllers_Application_fetchListSelectedPageNumber2_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("page/"), DynamicPart("no", """[^/]+""",true)))
   )
-  private[this] lazy val controllers_Application_nextContent2_invoker = createInvoker(
-    controllers.Application.nextContent(fakeValue[Int]),
+  private[this] lazy val controllers_Application_fetchListSelectedPageNumber2_invoker = createInvoker(
+    controllers.Application.fetchListSelectedPageNumber(fakeValue[Int]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.Application",
-      "nextContent",
+      "fetchListSelectedPageNumber",
       Seq(classOf[Int]),
       "GET",
       """""",
@@ -132,9 +132,9 @@ class Routes extends GeneratedRouter {
       }
   
     // @LINE:3
-    case controllers_Application_nextContent2_route(params) =>
+    case controllers_Application_fetchListSelectedPageNumber2_route(params) =>
       call(params.fromPath[Int]("no", None)) { (no) =>
-        controllers_Application_nextContent2_invoker.call(controllers.Application.nextContent(no))
+        controllers_Application_fetchListSelectedPageNumber2_invoker.call(controllers.Application.fetchListSelectedPageNumber(no))
       }
   
     // @LINE:4
