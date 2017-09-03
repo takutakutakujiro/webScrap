@@ -26,11 +26,11 @@ object Utils {
 			case None => "None"
 		}
     }
-    def createElaMap(o: Option[Match]): Map[String, String] = {
+	def createElaMap(o: Option[Match]): Map[String, String] = {
 		Map[String, String](
-			"title" 		-> o.get.group(1),
+			"title" 			-> o.get.group(1),
 			"detail_url"	-> o.get.group(2),
-			"img" 			-> o.get.group(3),
+			"img" 				-> o.get.group(3),
 			"minPrice"  	-> o.get.group(4),
 			"maxPrice"  	-> o.get.group(5),
 			"address"   	-> o.get.group(6),
@@ -39,6 +39,75 @@ object Utils {
 			"maxSpace" 		-> o.get.group(9),
 			"roomLayout"	-> o.get.group(10)
 		)
+	}
+
+	val createViewListMap = (listMap: List[Map[String, String]], from: Int, to: Int) => {
+
+		listMap.slice(from, to) map { m =>
+
+			val fixedMap = m("minPrice") match {
+
+				case x if x.length > 4 =>
+					m + (
+								"minPrice" -> priceUnitModification(x)
+					)
+
+				case _ =>
+					m + (
+								"minPrice" -> yenUnitGrant(m("minPrice"))
+					)
+			}
+
+			val test = fixedMap("maxPrice") match {
+
+				case x if x.length > 4 =>
+					fixedMap + (
+						"maxPrice" -> priceUnitModification(x)
+					)
+
+				case _ =>
+					fixedMap + (
+						"maxPrice" -> yenUnitGrant(m("maxPrice"))
+					)
+			}
+			test
+		}
+	}
+
+	def priceUnitModification (price: String): String = {
+
+		price match {
+
+			case "未定" => price
+
+			case _ =>
+
+				// 億単位の数字が何文字あるかを求める
+				val firstPriceLength = price.length - 4
+
+				// 億の位を抽出し、単位に億をつける
+				val oku = price.substring(0, firstPriceLength) + "億"
+
+				// 万の位を抽出し、単位をつける
+				val man = yenUnitGrant(price.substring(firstPriceLength))
+
+				oku + man
+
+		}
+	}
+
+	def yenUnitGrant (price: String) = {
+		price.dropWhile {
+
+				_ == '0'
+
+		} match {
+
+			case "未定" 	=> price
+			case "" 		=> "円"
+			case str		=> str + "万円"
+
+		}
 	}
 }
 
@@ -53,17 +122,17 @@ object scrapUtil {
 			jsoup.par.map { m => 
 				//タイトル、詳細画面url、画像、販売価格、所在地、駅、土地面積、間取り
 				val iMap = Map[String, String](
-					"site"		 -> siteName,
-					"title"      -> getTitle(m),
-					"detail_url" -> getDetailUrl(m),
-					"img" 		 -> getImg(m),
-					"minPrice"   -> getMinPrice(m),
-					"maxPrice"   -> getMaxPrice(m),
-					"address"    -> getAddress(m),
-					"station" 	 -> getStation(m),
-					"minSpace" 	 -> getMinSpace(m),	
-					"maxSpace" 	 -> getMaxSpace(m),	
-					"roomLayout" -> getRoomLayout(m)
+					"site"		 		-> siteName,
+					"title"      	-> getTitle(m),
+					"detail_url" 	-> getDetailUrl(m),
+					"img" 		 		-> getImg(m),
+					"minPrice"   	-> getMinPrice(m),
+					"maxPrice"   	-> getMaxPrice(m),
+					"address"    	-> getAddress(m),
+					"station" 	 	-> getStation(m),
+					"minSpace" 	 	-> getMinSpace(m),
+					"maxSpace" 	 	-> getMaxSpace(m),
+					"roomLayout" 	-> getRoomLayout(m)
 				)
 				printMap(iMap)
 				b += iMap
@@ -72,20 +141,20 @@ object scrapUtil {
 		b.toList		
 	}
 
-    def printMap(map: Map[String,String]) = {
+  def printMap(map: Map[String,String]) = {
     	println("\n==================")
-    	println("site" + map("site"))
-    	println("title" + map("title"))
-		println("detail_url" + map("detail_url"))
-		println("img" + map("img"))
-		println("minPrice" + map("minPrice"))
-		println("maxPrice" + map("maxPrice"))
-		println("address" + map("address"))
-		println("station" + map("station"))
-		println("minSpace" + map("minSpace"))
-		println("maxSpace" + map("maxSpace"))
-		println("roomLayout" + map("roomLayout"))
-    }
+    	println("site：" + map("site"))
+    	println("title：" + map("title"))
+			println("detail_url：" + map("detail_url"))
+			println("img：" + map("img"))
+			println("minPrice：" + map("minPrice"))
+			println("maxPrice：" + map("maxPrice"))
+			println("address：" + map("address"))
+			println("station：" + map("station"))
+			println("minSpace：" + map("minSpace"))
+			println("maxSpace：" + map("maxSpace"))
+			println("roomLayout：" + map("roomLayout"))
+	}
 
-    def trimPriceCal (oku: Int, man: Int) = oku * 10000 + man
+	def trimPriceCal (oku: Int, man: Int) = oku * 10000 + man
 }

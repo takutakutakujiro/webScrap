@@ -3,12 +3,7 @@ package controllers
 import org.jsoup._
 import org.jsoup.nodes.Element
 import collection.JavaConverters._
-import scala.util.matching.Regex.Match
-import scala.collection.mutable.Buffer
-import collection.immutable.ListMap
 import utils.Utils._
-import utils.JsoupUtil._
-import utils.JsonUtil._
 import utils.scrapUtil._
 
 

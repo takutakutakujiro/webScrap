@@ -5,10 +5,10 @@
 @viewListMap = @{sessionBean.viewListMap}
 @status = @{sessionBean.status}
 @currentPageNumber = @{sessionBean.currentPageNumber}
-@serchedSUMO = @{sessionBean.checkedSiteModel.sumo}
+@searchedSUMO = @{sessionBean.checkedSiteModel.sumo}
 <!--http://localhost:9000/page/-->
 <!--https://house-site-scraping.herokuapp.com/page/-->
-@url = @{"https://house-site-scraping.herokuapp.com/page/"}
+@url = @{"http://localhost:9000/page/"}
 	
 @main("世田谷House"){
 	@header
@@ -80,7 +80,7 @@
 				<div class="checkboxs-title">サイト選択</div>
 				<div class="checkboxs">
 
-					@if(serchedSUMO){
+					@if(searchedSUMO){
 						<label class="checkbox-inline">
 							<input type="checkbox" name="sumo" value=1 checked>SUMO
 						</label>
@@ -114,7 +114,7 @@
 					@map("minPrice")
 				} else {
 					@map("minPrice") ~ @map("maxPrice")
-				}万円
+				}
 			</div>
 			<div class="col-md-2 col-xs-6 item item-left">所在地</div>
 			<div class="col-md-6 col-xs-6 item">@map("address")</div>	

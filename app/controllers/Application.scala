@@ -7,6 +7,8 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 
+import utils.Utils._
+
 
 object Application extends Controller {
 
@@ -26,7 +28,7 @@ object Application extends Controller {
 			case _ =>
 		}
 
-		cashSessionBean.viewListMap = cashSessionBean.houseAllListMap.slice(0,30)
+		cashSessionBean.viewListMap = createViewListMap(cashSessionBean.houseAllListMap, 0, 30)
 		cashSessionBean.status = SEARCHED
 	}
 
@@ -37,7 +39,7 @@ object Application extends Controller {
 			case _ => (selectedPageNo - 1) * 30
 		}
 
-		cashSessionBean.viewListMap = cashSessionBean.houseAllListMap.slice(sliceFromNo, sliceFromNo + 30)
+		cashSessionBean.viewListMap = createViewListMap(cashSessionBean.houseAllListMap, sliceFromNo, sliceFromNo + 30)
 		cashSessionBean.currentPageNumber = selectedPageNo
 
 	 	Ok(views.html.index(cashSessionBean))
@@ -79,6 +81,7 @@ object Application extends Controller {
 
 	 		case e: Exception =>
 				println("予期せぬエラーです。")
+				println(e)
 
 				cashSessionBean.viewListMap = List[Map[String, String]]()
 				cashSessionBean.status = e.toString
