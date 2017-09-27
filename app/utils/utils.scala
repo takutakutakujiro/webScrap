@@ -7,7 +7,7 @@ import collection.immutable.ListMap
 import controllers.scrap_sumo._
 
 object JsoupUtil {	
-	def start (url: String, tag: String) = Jsoup.connect(url).get.select(tag).asScala
+	def start (url: String, tag: String) = Jsoup.connect(url).get.select(tag).asScala.toList
 }
 
 object JsonUtil {
@@ -28,9 +28,9 @@ object Utils {
     }
 	def createElaMap(o: Option[Match]): Map[String, String] = {
 		Map[String, String](
-			"title" 			-> o.get.group(1),
+			"title" 		-> o.get.group(1),
 			"detail_url"	-> o.get.group(2),
-			"img" 				-> o.get.group(3),
+			"img" 			-> o.get.group(3),
 			"minPrice"  	-> o.get.group(4),
 			"maxPrice"  	-> o.get.group(5),
 			"address"   	-> o.get.group(6),
@@ -114,10 +114,10 @@ object scrapUtil {
 			jsoup.par.foreach { m => 
 				//タイトル、詳細画面url、画像、販売価格、所在地、駅、土地面積、間取り
 				val iMap = Map[String, String](
-					"site"		 		-> siteName,
+					"site"		 	-> siteName,
 					"title"      	-> getTitle(m),
 					"detail_url" 	-> getDetailUrl(m),
-					"img" 		 		-> getImg(m),
+					"img" 		 	-> getImg(m),
 					"minPrice"   	-> getMinPrice(m),
 					"maxPrice"   	-> getMaxPrice(m),
 					"address"    	-> getAddress(m),
