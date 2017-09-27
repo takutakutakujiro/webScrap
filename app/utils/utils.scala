@@ -48,29 +48,20 @@ object Utils {
 			val fixedMap = m("minPrice") match {
 
 				case x if x.length > 4 =>
-					m + (
-								"minPrice" -> priceUnitModification(x)
-					)
+					m + ("minPrice" -> priceUnitModification(x))
 
 				case _ =>
-					m + (
-								"minPrice" -> yenUnitGrant(m("minPrice"))
-					)
+					m + ("minPrice" -> yenUnitGrant(m("minPrice")))
 			}
 
-			val test = fixedMap("maxPrice") match {
+			fixedMap("maxPrice") match {
 
 				case x if x.length > 4 =>
-					fixedMap + (
-						"maxPrice" -> priceUnitModification(x)
-					)
+					fixedMap + ("maxPrice" -> priceUnitModification(x))
 
 				case _ =>
-					fixedMap + (
-						"maxPrice" -> yenUnitGrant(m("maxPrice"))
-					)
+					fixedMap + ("maxPrice" -> yenUnitGrant(m("maxPrice")))
 			}
-			test
 		}
 	}
 
@@ -97,6 +88,7 @@ object Utils {
 	}
 
 	def yenUnitGrant (price: String) = {
+
 		price.dropWhile {
 
 				_ == '0'
@@ -116,10 +108,10 @@ object scrapUtil {
 	def createMap (classStr: String, siteName: String, list : List[String]): List[Map[String, String]] = {	
 		import collection.mutable.ListBuffer
 		val b = new ListBuffer[Map[String, String]]
-		list.par.map { url => 
-			val jsoup = JsoupUtil.start(url, classStr) 
+		list.par.foreach { url => 
+			val jsoup = JsoupUtil.start(url, classStr).toList
 
-			jsoup.par.map { m => 
+			jsoup.par.foreach { m => 
 				//タイトル、詳細画面url、画像、販売価格、所在地、駅、土地面積、間取り
 				val iMap = Map[String, String](
 					"site"		 		-> siteName,
@@ -142,18 +134,18 @@ object scrapUtil {
 	}
 
   def printMap(map: Map[String,String]) = {
-    	println("\n==================")
-    	println("site：" + map("site"))
+    	//println("\n==================")
+    	//println("site：" + map("site"))
     	println("title：" + map("title"))
-			println("detail_url：" + map("detail_url"))
-			println("img：" + map("img"))
-			println("minPrice：" + map("minPrice"))
-			println("maxPrice：" + map("maxPrice"))
-			println("address：" + map("address"))
-			println("station：" + map("station"))
-			println("minSpace：" + map("minSpace"))
-			println("maxSpace：" + map("maxSpace"))
-			println("roomLayout：" + map("roomLayout"))
+		// println("detail_url：" + map("detail_url"))
+		// println("img：" + map("img"))
+		// println("minPrice：" + map("minPrice"))
+		// println("maxPrice：" + map("maxPrice"))
+		// println("address：" + map("address"))
+		// println("station：" + map("station"))
+		// println("minSpace：" + map("minSpace"))
+		// println("maxSpace：" + map("maxSpace"))
+		// println("roomLayout：" + map("roomLayout"))
 	}
 
 	def trimPriceCal (oku: Int, man: Int) = oku * 10000 + man
